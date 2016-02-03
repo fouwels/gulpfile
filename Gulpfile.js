@@ -44,8 +44,8 @@ gulp.task('js', function () {
 
 gulp.task('assets', function(){
 	return gulp.src('./dev/assets/*')
-		.pipe(newer(rootOutputDir + '/assets/'))
-		.pipe(gulp.dest(rootOutputDir + '/assets/'));
+		.pipe(newer(rootOutputDir + '/'))
+		.pipe(gulp.dest(rootOutputDir + '/'));
 })
 
 gulp.task('html', function () {
