@@ -21,7 +21,7 @@ gulp.task('bootstrap', function () {
 gulp.task('jquery', function () {
 	return gulp.src('./bower_components/jquery/dist/**/*')
 		.pipe(newer(rootOutputDir + '/js/'))
-		.pipe(minjs())
+		//.pipe(minjs())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
@@ -68,7 +68,7 @@ gulp.task('jade', function () {
 });
 
 gulp.task('fonta', function () {
-	return gulp.src('./bower_components/font-awesome/*')
+	return gulp.src('./bower_components/font-awesome/**/*')
 		.pipe(newer(rootOutputDir + '/'))
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
@@ -81,4 +81,4 @@ gulp.task('watch', function () {
 });
 
 
-gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee']);
+gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee', 'assets']);
