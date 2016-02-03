@@ -1,6 +1,6 @@
 ```
 
-npm install --save gulp rimraf gulp-newer gulp-uglify require-dir gulp-minify-css gulp-coffee gulp-stylus
+npm install --save gulp rimraf gulp-newer gulp-uglify require-dir gulp-cssnano gulp-coffee gulp-stylus
 
 git submodule add https://github.com/kfwls/gulpfile.git
 
