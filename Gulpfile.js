@@ -1,7 +1,11 @@
 var gulp = require('gulp');
 var rimraf = require("rimraf");
 var newer = require('gulp-newer');
-var uglify = require('gulp-uglify');
+var minjs = require('gulp-uglify');
+var mincss = require('gulp-minify-css');
+var stylus = require('gulp-stylus');
+var coffee = require('gulp-coffee');
+var jade = require('gulp-jade');
 
 var rootOutputDir = './wwwroot';
 
@@ -18,26 +22,30 @@ gulp.task('bootstrap', function () {
 gulp.task('jquery', function () {
 	return gulp.src('./bower_components/jquery/dist/**/*')
 		.pipe(newer(rootOutputDir + '/js/'))
-		.pipe(uglify())
+		.pipe(minjs())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
-gulp.task('styles', function () {
+gulp.task('css', function () {
 	return gulp.src('./dev/css/*')
 		.pipe(newer(rootOutputDir + '/css/'))
+		.pipe(stylus())
+		.pipe(mincss())
 		.pipe(gulp.dest(rootOutputDir + '/css/'));
 });
 
-gulp.task('scripts', function () {
+gulp.task('js', function () {
 	return gulp.src('./dev/js/*')
 		.pipe(newer(rootOutputDir + '/js/'))
-		.pipe(uglify())
+		.pipe(coffee())
+		.pipe(minjs())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
-gulp.task('pages', function () {
+gulp.task('html', function () {
 	return gulp.src('./dev/html/*')
 		.pipe(newer(rootOutputDir + '/'))
+		.pipe(jade())
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
@@ -49,10 +57,10 @@ gulp.task('fonta', function () {
 
 
 gulp.task('watch', function () {
-	gulp.watch('./dev/css/*', ['styles']);
-	gulp.watch('./dev/js/*', ['scripts']);
-	gulp.watch('./dev/*', ['pages']);
+	gulp.watch('./dev/css/*', ['css']);
+	gulp.watch('./dev/js/*', ['js']);
+	gulp.watch('./dev/html*', ['html']);
 });
 
 
-gulp.task('build', ['bootstrap', 'jquery', 'styles', 'scripts', 'pages', 'fonta']);
+gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta']);
