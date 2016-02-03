@@ -12,7 +12,6 @@ var rootOutputDir = './wwwroot';
 gulp.task('clean', function (cb) {
 	rimraf(rootOutputDir + '/*', cb);
 });
-
 gulp.task('bootstrap', function () {
 	return gulp.src('./bower_components/bootstrap/dist/**/*')
 		.pipe(newer(rootOutputDir + '/'))
@@ -36,6 +35,13 @@ gulp.task('css', function () {
 
 gulp.task('js', function () {
 	return gulp.src('./dev/js/*')
+		.pipe(newer(rootOutputDir + '/js/'))
+		.pipe(minjs())
+		.pipe(gulp.dest(rootOutputDir + '/js/'));
+});
+
+gulp.task('coffee', function () {
+	return gulp.src('./dev/coffee/*')
 		.pipe(newer(rootOutputDir + '/js/'))
 		.pipe(coffee())
 		.pipe(minjs())
@@ -75,4 +81,4 @@ gulp.task('watch', function () {
 });
 
 
-gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade']);
+gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee']);
