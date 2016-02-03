@@ -42,6 +42,12 @@ gulp.task('js', function () {
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
+gulp.task('assets', function(){
+	return gulp.src('./dev/assets/*')
+		.pipe(newer(rootOutputDir + '/assets/'))
+		.pipe(gulp.dest(rootOutputDir + '/assets/'));
+})
+
 gulp.task('html', function () {
 	return gulp.src('./dev/html/*')
 		.pipe(newer(rootOutputDir + '/'))
