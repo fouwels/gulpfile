@@ -51,6 +51,12 @@ gulp.task('assets', function(){
 gulp.task('html', function () {
 	return gulp.src('./dev/html/*')
 		.pipe(newer(rootOutputDir + '/'))
+		.pipe(gulp.dest(rootOutputDir + '/'));
+});
+
+gulp.task('jade', function () {
+	return gulp.src('./dev/jade/*')
+		.pipe(newer(rootOutputDir + '/'))
 		.pipe(jade())
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
@@ -69,4 +75,4 @@ gulp.task('watch', function () {
 });
 
 
-gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta']);
+gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade']);
