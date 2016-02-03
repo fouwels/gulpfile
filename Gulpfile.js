@@ -46,7 +46,7 @@ gulp.task('assets', function(){
 	return gulp.src('./dev/assets/*')
 		.pipe(newer(rootOutputDir + '/'))
 		.pipe(gulp.dest(rootOutputDir + '/'));
-})
+});
 
 gulp.task('html', function () {
 	return gulp.src('./dev/html/*')
