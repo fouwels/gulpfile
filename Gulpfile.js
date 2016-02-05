@@ -36,7 +36,7 @@ gulp.task('css', function () {
 gulp.task('js', function () {
 	return gulp.src('./dev/js/*')
 		.pipe(newer(rootOutputDir + '/js/'))
-		.pipe(minjs())
+		//.pipe(minjs())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
@@ -63,7 +63,7 @@ gulp.task('html', function () {
 gulp.task('jade', function () {
 	return gulp.src('./dev/jade/*')
 		.pipe(newer(rootOutputDir + '/'))
-		.pipe(jade())
+		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
@@ -77,7 +77,8 @@ gulp.task('fonta', function () {
 gulp.task('watch', function () {
 	gulp.watch('./dev/css/*', ['css']);
 	gulp.watch('./dev/js/*', ['js']);
-	gulp.watch('./dev/html*', ['html']);
+	gulp.watch('./dev/html/*', ['html']);
+	gulp.watch('./dev/jade/*', ['jade']);
 });
 
 
