@@ -9,7 +9,6 @@ var jade = require('gulp-jade');
 var footer = require('gulp-footer');
 var gulpNSP = require('gulp-nsp');
 
-
 var ft = 	"(C) Kaelan Fouwels <kaelan@kaelanfouwels.com> <%= new Date().getFullYear() %> Licenced under MIT";
 
 var rootOutputDir = './wwwroot';
@@ -80,13 +79,13 @@ gulp.task('fonta', function () {
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
-
 gulp.task('watch', function () {
 	gulp.watch('./dev/css/*', ['css']);
 	gulp.watch('./dev/js/*', ['js']);
 	gulp.watch('./dev/html/*', ['html']);
 	gulp.watch('./dev/jade/*', ['jade']);
 });
+
 gulp.task('nsp', function(cb) {
 	gulpNSP({
 		package: __dirname + '/../package.json',
