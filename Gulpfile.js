@@ -15,7 +15,6 @@ var rootOutputDir = './wwwroot';
 gulp.task('clean', function (cb) {
 	rimraf(rootOutputDir + '/*', cb);
 });
-
 gulp.task('bootstrap', function () {
 	return gulp.src('./bower_components/bootstrap/dist/**/*')
 		.pipe(newer(rootOutputDir + '/'))
@@ -25,7 +24,7 @@ gulp.task('bootstrap', function () {
 gulp.task('jquery', function () {
 	return gulp.src('./bower_components/jquery/dist/**/*')
 		.pipe(newer(rootOutputDir + '/js/'))
-		.pipe(minjs())
+		//.pipe(minjs())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
@@ -40,6 +39,13 @@ gulp.task('css', function () {
 
 gulp.task('js', function () {
 	return gulp.src('./dev/js/*')
+		.pipe(newer(rootOutputDir + '/js/'))
+		.pipe(minjs())
+		.pipe(gulp.dest(rootOutputDir + '/js/'));
+});
+
+gulp.task('coffee', function () {
+	return gulp.src('./dev/coffee/*')
 		.pipe(newer(rootOutputDir + '/js/'))
 		.pipe(coffee())
 		.pipe(minjs())
@@ -56,13 +62,19 @@ gulp.task('assets', function(){
 gulp.task('html', function () {
 	return gulp.src('./dev/html/*')
 		.pipe(newer(rootOutputDir + '/'))
+		.pipe(gulp.dest(rootOutputDir + '/'));
+});
+
+gulp.task('jade', function () {
+	return gulp.src('./dev/jade/*')
+		.pipe(newer(rootOutputDir + '/'))
 		.pipe(jade())
 		.pipe(footer())
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
 gulp.task('fonta', function () {
-	return gulp.src('./bower_components/font-awesome/*')
+	return gulp.src('./bower_components/font-awesome/**/*')
 		.pipe(newer(rootOutputDir + '/'))
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
@@ -75,4 +87,4 @@ gulp.task('watch', function () {
 });
 
 
-gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta']);
+gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee', 'assets']);
