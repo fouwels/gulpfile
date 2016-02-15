@@ -7,6 +7,8 @@ var stylus = require('gulp-stylus');
 var coffee = require('gulp-coffee');
 var jade = require('gulp-jade');
 var footer = require('gulp-footer');
+var gulpNSP = require('gulp-nsp');
+
 
 var ft = 	"(C) Kaelan Fouwels <kaelan@kaelanfouwels.com> <%= new Date().getFullYear() %> Licenced under MIT";
 
@@ -49,7 +51,7 @@ gulp.task('coffee', function () {
 		.pipe(newer(rootOutputDir + '/js/'))
 		.pipe(coffee())
 		.pipe(minjs())
-		.pipt(footer())
+		.pipe(footer())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
@@ -85,6 +87,8 @@ gulp.task('watch', function () {
 	gulp.watch('./dev/html/*', ['html']);
 	gulp.watch('./dev/jade/*', ['jade']);
 });
-
+gulp.task('nsp', function(cb) {
+	gulpNSP({package: __dirname + '/../package.json'}, cb);
+});
 
 gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee', 'assets']);
