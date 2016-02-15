@@ -88,7 +88,16 @@ gulp.task('watch', function () {
 	gulp.watch('./dev/jade/*', ['jade']);
 });
 gulp.task('nsp', function(cb) {
+<<<<<<< HEAD
 	gulpNSP({package: __dirname + '/../package.json'}, cb);
 });
+=======
+	gulpNSP({
+		package: __dirname + '/../package.json',
+		stopOnError: false
+	}, cb);
+});
+
+>>>>>>> defbded093617af2de06c452d429baa6237acab8
 
 gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee', 'assets']);
