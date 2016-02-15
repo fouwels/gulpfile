@@ -6,6 +6,9 @@ var mincss = require('gulp-cssnano');
 var stylus = require('gulp-stylus');
 var coffee = require('gulp-coffee');
 var jade = require('gulp-jade');
+var footer = require('gulp-footer');
+
+var ft = 	"(C) Kaelan Fouwels <kaelan@kaelanfouwels.com> <%= new Date().getFullYear() %> Licenced under MIT";
 
 var rootOutputDir = './wwwroot';
 
@@ -31,6 +34,7 @@ gulp.task('css', function () {
 		.pipe(newer(rootOutputDir + '/css/'))
 		.pipe(stylus())
 		.pipe(mincss())
+		.pipe(footer())
 		.pipe(gulp.dest(rootOutputDir + '/css/'));
 });
 
@@ -39,6 +43,7 @@ gulp.task('js', function () {
 		.pipe(newer(rootOutputDir + '/js/'))
 		.pipe(coffee())
 		.pipe(minjs())
+		.pipt(footer())
 		.pipe(gulp.dest(rootOutputDir + '/js/'));
 });
 
@@ -52,6 +57,7 @@ gulp.task('html', function () {
 	return gulp.src('./dev/html/*')
 		.pipe(newer(rootOutputDir + '/'))
 		.pipe(jade())
+		.pipe(footer())
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
