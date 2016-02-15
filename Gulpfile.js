@@ -7,6 +7,8 @@ var stylus = require('gulp-stylus');
 var coffee = require('gulp-coffee');
 var jade = require('gulp-jade');
 var footer = require('gulp-footer');
+var gulpNSP = require('gulp-nsp');
+
 
 var ft = 	"(C) Kaelan Fouwels <kaelan@kaelanfouwels.com> <%= new Date().getFullYear() %> Licenced under MIT";
 
@@ -84,6 +86,12 @@ gulp.task('watch', function () {
 	gulp.watch('./dev/js/*', ['js']);
 	gulp.watch('./dev/html/*', ['html']);
 	gulp.watch('./dev/jade/*', ['jade']);
+});
+gulp.task('nsp', function(cb) {
+	gulpNSP({
+		package: __dirname + '/../package.json',
+		stopOnError: false
+	}, cb);
 });
 
 
