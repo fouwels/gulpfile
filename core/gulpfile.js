@@ -8,50 +8,46 @@ var coffee = require('gulp-coffee');
 var jade = require('gulp-jade');
 var footer = require('gulp-footer');
 var gulpNSP = require('gulp-nsp');
+var babel = require("gulp-babel");
+var sourcemaps = require('gulp-sourcemaps');
+var cleanCSS = require('gulp-clean-css');
 
-var ft = 	"(C) Kaelan Fouwels <kaelan@kaelanfouwels.com> <%= new Date().getFullYear() %> Licenced under MIT";
+var ft = 	"<!--(C) Kaelan Fouwels <kaelan@kaelanfouwels.com> <%= new Date().getFullYear() %> Licenced under MIT-->";
 
 var rootOutputDir = './wwwroot';
 
 gulp.task('clean', function (cb) {
 	rimraf(rootOutputDir + '/*', cb);
 });
-gulp.task('bootstrap', function () {
-	return gulp.src('./bower_components/bootstrap/dist/**/*')
-		.pipe(newer(rootOutputDir + '/'))
-		.pipe(gulp.dest(rootOutputDir + '/'));
-});
-
-gulp.task('jquery', function () {
-	return gulp.src('./bower_components/jquery/dist/**/*')
-		.pipe(newer(rootOutputDir + '/js/'))
-		//.pipe(minjs())
-		.pipe(gulp.dest(rootOutputDir + '/js/'));
-});
 
 gulp.task('css', function () {
-	return gulp.src('./dev/css/*')
+	return gulp.src('./dev/**/*.css')
 		.pipe(newer(rootOutputDir + '/css/'))
+		.pipe(sourcemaps.init())
 		.pipe(stylus())
 		.pipe(mincss())
-		.pipe(footer())
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(rootOutputDir + '/css/'));
 });
 
 gulp.task('js', function () {
-	return gulp.src('./dev/js/*')
+	return gulp.src('./dev/**/*.js')
 		.pipe(newer(rootOutputDir + '/js/'))
+		.pipe(sourcemaps.init())
+		.pipe(babel())
 		//.pipe(minjs())
-		.pipe(gulp.dest(rootOutputDir + '/js/'));
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
 gulp.task('coffee', function () {
-	return gulp.src('./dev/coffee/*')
+	return gulp.src('./dev/**/*.coffee')
 		.pipe(newer(rootOutputDir + '/js/'))
+		.pipe(sourcemaps.init())
 		.pipe(coffee())
-		.pipe(minjs())
-		.pipe(footer())
-		.pipe(gulp.dest(rootOutputDir + '/js/'));
+		//.pipe(minjs())
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
 gulp.task('assets', function(){
@@ -61,29 +57,41 @@ gulp.task('assets', function(){
 });
 
 gulp.task('html', function () {
-	return gulp.src('./dev/html/*')
+	return gulp.src('./dev/**/*.html')
 		.pipe(newer(rootOutputDir + '/'))
+		.pipe(footer(ft))
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
 gulp.task('jade', function () {
-	return gulp.src('./dev/jade/*')
+	return gulp.src('./dev/**/*.jade')
 		.pipe(newer(rootOutputDir + '/'))
+		.pipe(sourcemaps.init())
 		.pipe(jade({pretty: true}))
+		.pipe(footer(ft))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(rootOutputDir + '/'));
 });
 
-gulp.task('fonta', function () {
-	return gulp.src('./bower_components/font-awesome/**/*')
-		.pipe(newer(rootOutputDir + '/'))
-		.pipe(gulp.dest(rootOutputDir + '/'));
+gulp.task('bower', function () {
+	var paths = {
+				"bootstrap": {"in": "bootstrap/dist/**/*", "out": ""},
+				"jquery": {"in": "jquery/dist/**/*", "out":"/js"},
+		}
+		for (var dir in paths) {
+			gulp.src('./bower_components/' + paths[dir].in)
+				.pipe(newer(rootOutputDir + '/'))
+				.pipe(sourcemaps.init())
+				//.pipe(minjs())
+				//.pipe(cleanCSS())
+				.pipe(sourcemaps.write())
+				.pipe(gulp.dest(rootOutputDir + paths[dir].out + '/'));
+		}
+	return
 });
 
 gulp.task('watch', function () {
-	gulp.watch('./dev/css/*', ['css']);
-	gulp.watch('./dev/js/*', ['js']);
-	gulp.watch('./dev/html/*', ['html']);
-	gulp.watch('./dev/jade/*', ['jade']);
+	gulp.watch('./dev/**/*', ['build']);
 });
 
 gulp.task('nsp', function(cb) {
@@ -93,4 +101,4 @@ gulp.task('nsp', function(cb) {
 	}, cb);
 });
 
-gulp.task('build', ['bootstrap', 'jquery', 'css', 'js', 'html', 'fonta', 'jade', 'coffee', 'assets']);
+gulp.task('build', ['bower', 'css', 'js', 'html', 'jade', 'coffee', 'assets']);
